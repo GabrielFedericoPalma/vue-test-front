@@ -42,13 +42,15 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useApiStore } from 'stores/api-store';
 
+const store = useApiStore();
 const isPwd = ref(false);
 const userName = ref('');
 const userPassword = ref('');
 
 const onSubmit = () => {
-  console.log('submit');
+  store.login(userName.value, userPassword.value);
 };
 
 const onReset = () => {
@@ -60,7 +62,7 @@ interface Props {
   title: string;
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   title: () => 'Login',
 });
 

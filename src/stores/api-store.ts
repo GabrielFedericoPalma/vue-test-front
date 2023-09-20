@@ -1,15 +1,34 @@
 import { defineStore } from 'pinia';
+import { api } from 'boot/axios';
+import { Notify } from 'quasar';
 
-export const useCounterStore = defineStore('counter', {
+export const useApiStore = defineStore('api', {
   state: () => ({
-    counter: 0,
+    API_URL: 'http://localhost:3000/login',
+    user: {},
   }),
-  getters: {
-    doubleCount: (state) => state.counter * 2,
-  },
   actions: {
-    increment() {
-      this.counter += 1;
+    async login(username:string, password:string) {
+      const data = {
+        username,
+        password,
+      };
+
+      api.post(this.API_URL, data, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }).then(() => {
+        Notify.create({
+          type: 'positive',
+          message: 'Acceso correcto',
+        });
+      }).catch((error) => {
+        Notify.create({
+          type: 'negative',
+          message: `Ocurrió un error al intentar login ${error}`,
+        });
+      });
     },
   },
 });
