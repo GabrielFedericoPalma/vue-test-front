@@ -42,11 +42,15 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useQuasar } from 'quasar';
 import { useApiStore } from 'stores/api-store';
 
 const store = useApiStore();
+const $q = useQuasar();
+const localStorage:(string | null) = $q.localStorage.getItem('user');
+
 const isPwd = ref(false);
-const userName = ref('');
+const userName = ref(localStorage);
 const userPassword = ref('');
 
 const onSubmit = () => {

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { api } from 'boot/axios';
-import { Notify } from 'quasar';
+import { Notify, LocalStorage } from 'quasar';
 
 export const useApiStore = defineStore('api', {
   state: () => ({
@@ -19,6 +19,7 @@ export const useApiStore = defineStore('api', {
           'Content-Type': 'application/json',
         },
       }).then(() => {
+        LocalStorage.set('user', username);
         Notify.create({
           type: 'positive',
           message: 'Acceso correcto',
